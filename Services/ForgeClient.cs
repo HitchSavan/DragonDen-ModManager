@@ -38,7 +38,7 @@ public static class ForgeClient
         Timeout = TimeSpan.FromSeconds(100)
     };
 
-    private static string BaseUrl => App.Config.Forge.BaseUrl?.TrimEnd('/') ?? "https://forge.sp-tarkov.com";
+    private static string BaseUrl => App.Config.Forge.BaseUrl?.TrimEnd('/') ?? "https://sp-mod.com";
     public static event Action<string>? StatusMessage;
 
     private static HttpRequestMessage NewGet(string url)
@@ -623,7 +623,7 @@ public static class ForgeClient
             }
             : null;
     }
-    
+
     private static bool GetPropertyAsBool(this JsonElement el, string name, bool def)
     {
         if (!el.TryGetProperty(name, out var v)) return def;
@@ -789,7 +789,7 @@ public static class ForgeClient
         public int Id { get; set; }
         public string? Version { get; set; }
         public string? Link { get; set; }
-        public string? Description  { get; set; }
+        public string? Description { get; set; }
         public string? SptVersionConstraint { get; set; }
         public DateTimeOffset? PublishedAt { get; set; }
         public long Downloads { get; set; }

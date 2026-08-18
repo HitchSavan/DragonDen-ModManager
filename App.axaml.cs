@@ -179,8 +179,8 @@ public class App : Application
             desktop.MainWindow.Opened += async (_, __) =>
             {
                 const string githubIssues = "https://github.com/Drexira/DragonDen-ModManager/issues";
-                const string discordInvite = "https://discord.gg/WelcomeToTarkov";
-                const string modPage = "https://forge.sp-tarkov.com/mod/2396/dragon-den-mod-manager";
+                const string discordInvite = "https://discord.gg/WelcomeTo[REDACTED]";
+                const string modPage = "https://sp-mod.com/mod/2396/dragon-den-mod-manager";
 
                 if (!Config.UI.ExpertMode)
                 {
@@ -275,7 +275,7 @@ public class App : Application
     {
         return Spt.TryGetServerVersionThree(out _, out var ab) && !string.IsNullOrWhiteSpace(ab) ? ab : "";
     }
-    
+
     public static int GetDetectedSptMajor()
     {
         try

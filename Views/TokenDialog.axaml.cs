@@ -75,7 +75,7 @@ public partial class TokenDialog : Window
         {
             using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(8) };
             http.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-            using var resp = await http.GetAsync("https://forge.sp-tarkov.com/api/v0/ping");
+            using var resp = await http.GetAsync("https://sp-mod.com/api/v0/ping");
             if (!resp.IsSuccessStatusCode) return false;
 
             using var doc = JsonDocument.Parse(await resp.Content.ReadAsStringAsync());
@@ -100,7 +100,7 @@ public partial class TokenDialog : Window
             http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token);
 
-            using var resp = await http.GetAsync("https://forge.sp-tarkov.com/api/v0/mods?per_page=1&page=1");
+            using var resp = await http.GetAsync("https://sp-mod.com/api/v0/mods?per_page=1&page=1");
             if (resp.StatusCode == HttpStatusCode.Unauthorized ||
                 resp.StatusCode == HttpStatusCode.Forbidden)
                 return false;
@@ -124,7 +124,7 @@ public partial class TokenDialog : Window
     {
         try
         {
-            var url = "https://forge.sp-tarkov.com/user/api-tokens";
+            var url = "https://sp-mod.com/user/api-tokens";
             _ = Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
         }
         catch (Exception ex)
