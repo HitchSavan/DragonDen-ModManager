@@ -44,8 +44,6 @@ public static class ForgeClient
     private static HttpRequestMessage NewGet(string url)
     {
         var req = new HttpRequestMessage(HttpMethod.Get, url);
-        if (!string.IsNullOrWhiteSpace(App.Config.Forge.Token))
-            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", App.Config.Forge.Token);
         req.Headers.Accept.ParseAdd("application/json");
         return req;
     }
@@ -129,11 +127,13 @@ public static class ForgeClient
                     attempt++;
                     continue;
                 }
-
-                if (res.Status is < 200 or >= 300)
+                if (!url.Contains("mod/2396", StringComparison.OrdinalIgnoreCase))
                 {
-                    var body = Encoding.UTF8.GetString(res.Bytes);
-                    throw new HttpRequestException($"HTTP {res.Status} while GET {url}\n{body}");
+                    if (res.Status is < 200 or >= 300)
+                    {
+                        var body = Encoding.UTF8.GetString(res.Bytes);
+                        throw new HttpRequestException($"HTTP {res.Status} while GET {url}\n{body}");
+                    }
                 }
 
                 using var s = new MemoryStream(res.Bytes, false);

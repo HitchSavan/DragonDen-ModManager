@@ -48,7 +48,7 @@ public partial class SettingsPage : UserControl
 
         ClearCacheBtn.Click += OnClearCache;
         ClearTempFilesBtn.Click += OnClearTemp;
-        ClearLogFilesBtn.Click += (_,__) => Logger.CleanAllLogs();
+        ClearLogFilesBtn.Click += (_, __) => Logger.CleanAllLogs();
     }
 
     private void ToggleTokenVisibility(bool show)
@@ -63,10 +63,8 @@ public partial class SettingsPage : UserControl
         DataBox.Text = App.Config.Paths.DataFolder ?? "";
         ClientRelBox.Text = App.Config.Paths.ClientModsRelative;
         ServerRelBox.Text = App.Config.Paths.ServerModsRelative;
-        ForgeTokenBox.Text = App.Config.Forge.Token ?? "";
-        ShowTokenToggle.IsChecked = false;
         ToggleTokenVisibility(false);
-        
+
         ExpertModeToggle.IsChecked = App.Config.UI.ExpertMode;
 
         UpdateComputed();
@@ -243,7 +241,6 @@ public partial class SettingsPage : UserControl
         App.Config.Paths.DataFolder = (DataBox.Text ?? "data").Trim();
         App.Config.Paths.ClientModsRelative = ClientRelBox.Text ?? "BepInEx/plugins";
         App.Config.Paths.ServerModsRelative = ServerRelBox.Text ?? "SPT/user/mods";
-        App.Config.Forge.Token = (ForgeTokenBox.Text ?? "").Trim();
         App.Config.UI.ExpertMode = ExpertModeToggle.IsChecked == true;
 
         App.SaveConfig();

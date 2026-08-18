@@ -334,6 +334,18 @@ WHERE COALESCE(category_name,'') = '' AND COALESCE(category_slug,'') <> ''";
                     versions = null
                 };
 
+                if (mod.detail_url != null)
+                {
+                    string to_replace = "forge.sp-tarkov";
+                    string replace_with = "sp-mod";
+
+                    int index = mod.detail_url.IndexOf(to_replace);
+                    if (index >= 0)
+                    {
+                        mod.detail_url = mod.detail_url.Remove(index, to_replace.Length).Insert(index, replace_with);
+                    }
+                }
+
                 items.Add(mod);
                 idList.Add(mod.id);
             }

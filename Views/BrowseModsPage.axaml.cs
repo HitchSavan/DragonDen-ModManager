@@ -212,7 +212,7 @@ public partial class BrowseModsPage : UserControl
     private int _totalMatches;
     private bool _updatingSptFilter;
     private bool _pagingInitialized;
-    
+
     private const string BlacklistUrl = "https://raw.githubusercontent.com/Drexira/DragonDen-ModManager/refs/heads/Public/BlacklistMods.json";
     private static readonly SemaphoreSlim _blacklistGate = new(1, 1);
     private static HashSet<string> _blacklist = new(StringComparer.OrdinalIgnoreCase);
@@ -221,7 +221,7 @@ public partial class BrowseModsPage : UserControl
     public BrowseModsPage()
     {
         InitializeComponent();
-        
+
         _ = EnsureBlacklistAsync();
 
         RefreshBtn.Click += async (_, __) => await StartIndexingAsync(true);
@@ -270,7 +270,7 @@ public partial class BrowseModsPage : UserControl
                 await PerformSearch(false);
             }
         };
-        
+
         _debounce.Tick += OnDebounceTick;
 
         SearchBox.PropertyChanged += async (_, e) =>
@@ -317,7 +317,7 @@ public partial class BrowseModsPage : UserControl
         _ = LoadCategoriesThenSearch();
         App.ConfigChanged += OnAppConfigChanged;
     }
-    
+
     private async void OnDebounceTick(object? sender, EventArgs e)
     {
         _debounce.Stop();
@@ -695,8 +695,6 @@ public partial class BrowseModsPage : UserControl
         h.Timeout = TimeSpan.FromSeconds(Math.Clamp(timeoutSeconds, 1, 30));
         h.DefaultRequestHeaders.Accept.Clear();
         h.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
-        if (!string.IsNullOrWhiteSpace(App.Config.Forge.Token))
-            h.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + App.Config.Forge.Token);
         return h;
     }
 
@@ -855,7 +853,7 @@ public partial class BrowseModsPage : UserControl
         }
 
         RefreshBtn.IsEnabled = false;
-        
+
         await EnsureBlacklistAsync();
 
         _isIndexing = true;
@@ -921,7 +919,7 @@ public partial class BrowseModsPage : UserControl
             UpdatePagingUi();
         }
     }
-    
+
     private static async Task FlushUiAsync()
     {
         await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Render);
@@ -1347,7 +1345,6 @@ public partial class BrowseModsPage : UserControl
 
     private async Task EnsureSourcesFromApiAsync(List<SearchResultRow> rows)
     {
-        if (string.IsNullOrWhiteSpace(App.Config.Forge.Token)) return;
         var needs = rows.Where(r => !(r.SourceButtons?.Count > 0)).Take(4).ToList();
         if (needs.Count == 0) return;
 
@@ -1768,7 +1765,7 @@ public partial class BrowseModsPage : UserControl
             }
         }
     }
-    
+
     private async Task<bool> ConfirmFirstInstallAsync(Window owner, string modName, string? modGuid, string? modUrl, CancellationToken ct)
     {
         try
@@ -1819,7 +1816,7 @@ public partial class BrowseModsPage : UserControl
 
         return null;
     }
-    
+
     private static bool IsBlacklisted(string? guid)
     {
         if (string.IsNullOrWhiteSpace(guid)) return false;
@@ -1862,7 +1859,7 @@ public partial class BrowseModsPage : UserControl
             _blacklistGate.Release();
         }
     }
-    
+
     private static HashSet<string> ParseBlacklistJson(string json)
     {
         var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

@@ -29,20 +29,11 @@ public partial class TokenDialog : Window
 
     private async void OnSetAsync(object? s, RoutedEventArgs e)
     {
-        var token = (TokenBox.Text ?? "").Trim();
-        if (string.IsNullOrWhiteSpace(token))
-        {
-            Notifications.Current.ShowWarning("Missing Token", "Please enter your Forge API token before continuing.");
-            Logger.Warn("[TokenDialog] No token entered by user.");
-            return;
-        }
-
         SetBtn.IsEnabled = false;
         CloseBtn.IsEnabled = false;
         SetBtn.Content = "Validating...";
 
         var apiUp = await CheckApiHealthAsync();
-        var tokenOk = apiUp && await CheckTokenValidAsync(token);
         SetBtn.Content = "Save Token";
         SetBtn.IsEnabled = true;
         CloseBtn.IsEnabled = true;
@@ -54,14 +45,6 @@ public partial class TokenDialog : Window
             return;
         }
 
-        if (!tokenOk)
-        {
-            Notifications.Current.ShowError("Invalid Token", "Token validation failed. Ensure it’s a valid Read-only token.");
-            Logger.Error("[TokenDialog] Provided Forge token was invalid or rejected.");
-            return;
-        }
-
-        App.Config.Forge.Token = token;
         App.SaveConfig();
         App.RaiseConfigChanged();
         Notifications.Current.ShowSuccess("Token Saved", "Your Forge API token has been saved successfully.");

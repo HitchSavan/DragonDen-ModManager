@@ -31,10 +31,11 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        
-        Opened += (_, __) => { 
+
+        Opened += (_, __) =>
+        {
             var scale = this.RenderScaling;
-            ClientSize = new Size(1280, 720); 
+            ClientSize = new Size(1280, 720);
         };
 
         _footerLeft = this.FindControl<TextBlock>("FooterLeft");
@@ -63,17 +64,6 @@ public partial class MainWindow : Window
 
     private async void OnOpenedAsync(object? s, EventArgs e)
     {
-        while (string.IsNullOrWhiteSpace(App.Config.Forge.Token))
-        {
-            var dlg = new TokenDialog();
-            var res = await dlg.ShowDialog<TokenDialog.Result?>(this) ?? TokenDialog.Result.CloseApp;
-            if (res == TokenDialog.Result.CloseApp)
-            {
-                Close();
-                return;
-            }
-        }
-
         while (string.IsNullOrWhiteSpace(App.Config.Paths.SptRoot) ||
                !Directory.Exists(App.Config.Paths.SptRoot!))
         {
@@ -85,7 +75,7 @@ public partial class MainWindow : Window
                 return;
             }
         }
-        
+
         await SelfUpdateChecker.CheckOnStartupAsync(this);
 
         try

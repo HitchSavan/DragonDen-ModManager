@@ -29,7 +29,6 @@ public sealed class Config
             Forge = new ForgeSection
             {
                 BaseUrl = "https://sp-mod.com",
-                Token = ""
             },
             UI = new UISection
             {
@@ -97,8 +96,6 @@ public sealed class Config
         if (string.IsNullOrWhiteSpace(Forge.BaseUrl))
             Forge.BaseUrl = "https://sp-mod.com";
 
-        Forge.Token ??= "";
-
         if (string.IsNullOrWhiteSpace(UI.SearchSort))
             UI.SearchSort = "recent";
 
@@ -131,7 +128,6 @@ public sealed class PathsSection
 
 public sealed class ForgeSection
 {
-    public string Token { get; set; } = "";
     public string BaseUrl { get; set; } = "https://sp-mod.com";
 }
 
