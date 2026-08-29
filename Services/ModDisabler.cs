@@ -33,7 +33,7 @@ namespace DragonDen.ModManager.Services
                     foreach (var rel in t.Files)
                     {
                         var live = Path.Combine(t.LiveRoot, rel.Replace('/', Path.DirectorySeparatorChar));
-                        var dis  = Path.Combine(t.DisabledRoot, modId, rel.Replace('/', Path.DirectorySeparatorChar));
+                        var dis = Path.Combine(t.DisabledRoot, modId, rel.Replace('/', Path.DirectorySeparatorChar));
 
                         if (!anyLive && File.Exists(live)) anyLive = true;
                         if (!anyDisabled && File.Exists(dis)) anyDisabled = true;
@@ -308,7 +308,7 @@ namespace DragonDen.ModManager.Services
                 Logger.Error($"[ModDisabler] EnsureDir failed for '{dir}': {ex.Message}");
             }
         }
-        
+
         private static void DeleteDirIfOnlyDirectories(string dir, DetailScope scope)
         {
             try
@@ -356,10 +356,10 @@ namespace DragonDen.ModManager.Services
             }
             catch
             {
-                return p.TrimEnd(Path.DirectorySeparatorChar); 
+                return p.TrimEnd(Path.DirectorySeparatorChar);
             }
         }
-        
+
         private static bool IsProtectedDir(string baseRoot, string dirFull)
         {
             try
@@ -367,7 +367,7 @@ namespace DragonDen.ModManager.Services
                 var rel = Path.GetRelativePath(baseRoot, dirFull).Replace('\\', '/').Trim('/');
                 if (string.Equals(rel, "BepInEx/plugins", StringComparison.OrdinalIgnoreCase)) return true;
                 if (string.Equals(rel, "BepInEx/patchers", StringComparison.OrdinalIgnoreCase)) return true;
-                if (string.Equals(rel, "SPT/user/mods", StringComparison.OrdinalIgnoreCase)) return true;
+                if (string.Equals(rel, "SPT_Runtime/user/mods", StringComparison.OrdinalIgnoreCase)) return true;
                 if (string.Equals(rel, "user/mods", StringComparison.OrdinalIgnoreCase)) return true;
             }
             catch { }

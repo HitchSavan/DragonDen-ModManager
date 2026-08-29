@@ -168,11 +168,11 @@ public partial class SettingsPage : UserControl
 
         string serverRel;
         if (Directory.Exists(Path.Combine(chosen, "SPT", "user", "mods")))
-            serverRel = "SPT/user/mods";
+            serverRel = "SPT_Runtime/user/mods";
         else if (Directory.Exists(Path.Combine(chosen, "user", "mods")))
             serverRel = "user/mods";
         else
-            serverRel = major >= 4 ? "SPT/user/mods" : "user/mods";
+            serverRel = major >= 4 ? "SPT_Runtime/user/mods" : "user/mods";
 
         var oldRoot = App.Config.Paths.SptRoot ?? "";
         App.Config.Paths.SptRoot = chosen;
@@ -216,7 +216,7 @@ public partial class SettingsPage : UserControl
     private static bool TryFindSptExe(string root, out string exePath)
     {
         var p1 = Path.Combine(root, "SPT.Server.exe");
-        var p2 = Path.Combine(root, "SPT", "SPT.Server.exe");
+        var p2 = Path.Combine(root, "SPT_Runtime", "SPT.Server.exe");
         if (File.Exists(p1))
         {
             exePath = p1;
@@ -240,7 +240,7 @@ public partial class SettingsPage : UserControl
         App.Config.Paths.SptRoot = (SptRootBox.Text ?? "").Trim();
         App.Config.Paths.DataFolder = (DataBox.Text ?? "data").Trim();
         App.Config.Paths.ClientModsRelative = ClientRelBox.Text ?? "BepInEx/plugins";
-        App.Config.Paths.ServerModsRelative = ServerRelBox.Text ?? "SPT/user/mods";
+        App.Config.Paths.ServerModsRelative = ServerRelBox.Text ?? "SPT_Runtime/user/mods";
         App.Config.UI.ExpertMode = ExpertModeToggle.IsChecked == true;
 
         App.SaveConfig();

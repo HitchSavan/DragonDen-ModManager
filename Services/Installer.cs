@@ -40,7 +40,7 @@ public static class Installer
                 var top = p.Split('/', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
                 if (top is null) continue;
                 if (top.Equals("BepInEx", StringComparison.OrdinalIgnoreCase) ||
-                    top.Equals("SPT", StringComparison.OrdinalIgnoreCase) ||
+                    top.Equals("SPT_Runtime", StringComparison.OrdinalIgnoreCase) ||
                     top.Equals("user", StringComparison.OrdinalIgnoreCase))
                     return true;
             }
@@ -103,8 +103,8 @@ public static class Installer
         static bool IsServerPath(string rel)
         {
             var u = NormSlash(rel);
-            return u.StartsWith("spt/user/mods/", StringComparison.OrdinalIgnoreCase)
-                   || u.Equals("spt/user/mods", StringComparison.OrdinalIgnoreCase)
+            return u.StartsWith("SPT_Runtime/user/mods/", StringComparison.OrdinalIgnoreCase)
+                   || u.Equals("SPT_Runtime/user/mods", StringComparison.OrdinalIgnoreCase)
                    || u.StartsWith("user/mods/", StringComparison.OrdinalIgnoreCase)
                    || u.Equals("user/mods", StringComparison.OrdinalIgnoreCase);
         }
@@ -124,7 +124,7 @@ public static class Installer
             if (IsServerPath(d)) serverDirs.Add(d);
             else clientDirs.Add(d);
         }
-        
+
         var name = ctx?.Name ?? Path.GetFileNameWithoutExtension(archivePath);
         var version = string.IsNullOrWhiteSpace(ctx?.Version) ? "Custom Install" : ctx!.Version!;
         var guid = ctx?.Guid ?? "";
@@ -189,21 +189,21 @@ public static class Installer
                 intent.clientRoots.Add("plugins");
             }
 
-            if (p.StartsWith("SPT/user/mods/", StringComparison.OrdinalIgnoreCase) ||
+            if (p.StartsWith("SPT_Runtime/user/mods/", StringComparison.OrdinalIgnoreCase) ||
                 p.StartsWith("user/mods/", StringComparison.OrdinalIgnoreCase))
             {
                 intent.serverLikely = true;
-                intent.serverRoots.Add("SPT/user/mods");
+                intent.serverRoots.Add("SPT_Runtime/user/mods");
                 intent.serverRoots.Add("user/mods");
             }
 
             var top = p.Split('/', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
             if (string.Equals(top, "BepInEx", StringComparison.OrdinalIgnoreCase)) intent.clientLikely = true;
-            if (string.Equals(top, "SPT", StringComparison.OrdinalIgnoreCase)) intent.serverLikely = true;
+            if (string.Equals(top, "SPT_Runtime", StringComparison.OrdinalIgnoreCase)) intent.serverLikely = true;
         }
 
         if (intent.clientLikely && intent.clientRoots.Count == 0) intent.clientRoots.Add("BepInEx/plugins");
-        if (intent.serverLikely && intent.serverRoots.Count == 0) intent.serverRoots.Add("SPT/user/mods");
+        if (intent.serverLikely && intent.serverRoots.Count == 0) intent.serverRoots.Add("SPT_Runtime/user/mods");
         return intent;
     }
 
@@ -272,7 +272,7 @@ public static class Installer
     {
         return text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? text[prefix.Length..] : null;
     }
-    
+
     private static string GetBepInExRoot()
     {
         try

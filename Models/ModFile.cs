@@ -19,7 +19,7 @@ public sealed class ModFile
         {
             var p = (Path ?? "").Trim().Replace('\\', '/');
 
-            if (string.Equals(Target, "server", StringComparison.OrdinalIgnoreCase)) return $"SPT/user/mods/{p}";
+            if (string.Equals(Target, "server", StringComparison.OrdinalIgnoreCase)) return $"SPT_Runtime/user/mods/{p}";
 
             if (p.StartsWith("BepInEx/", StringComparison.OrdinalIgnoreCase) ||
                 p.StartsWith("plugins/", StringComparison.OrdinalIgnoreCase))
@@ -28,7 +28,7 @@ public sealed class ModFile
             return $"BepInEx/plugins/{p}";
         }
     }
-    
+
     public string FullPath
     {
         get
@@ -38,7 +38,7 @@ public sealed class ModFile
             if (string.Equals(Target, "server", StringComparison.OrdinalIgnoreCase))
             {
                 var rel =
-                    TrimPrefix(unix, "SPT/user/mods/") ??
+                    TrimPrefix(unix, "SPT_Runtime/user/mods/") ??
                     TrimPrefix(unix, "user/mods/") ??
                     unix;
 
@@ -60,10 +60,10 @@ public sealed class ModFile
     {
         if (string.Equals(target, "client", StringComparison.OrdinalIgnoreCase))
             return App.Config.Paths.ClientModsRelative + "/" + file;
-        else 
+        else
             return App.Config.Paths.ServerModsRelative + "/" + file;
     }
-    
+
     private static string? TrimPrefix(string text, string prefix)
     {
         return text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? text[prefix.Length..] : null;

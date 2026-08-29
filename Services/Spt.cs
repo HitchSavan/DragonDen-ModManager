@@ -28,11 +28,11 @@ public static class Spt
             var candidates = new[]
             {
                 Path.Combine(root, "SPT.Server.exe"),
-                Path.Combine(root, "SPT", "SPT.Server.exe"),
+                Path.Combine(root, "SPT_Runtime", "SPT.Server.exe"),
                 Path.Combine(root, "Aki.Server.exe"),
                 Path.Combine(root, "Aki.Server", "Aki.Server.exe"),
                 Path.Combine(root, "Server", "Server.exe"),
-                Path.Combine(root, "SPT", "Server.exe")
+                Path.Combine(root, "SPT_Runtime", "Server.exe")
             };
 
             foreach (var p in candidates)
@@ -52,7 +52,7 @@ public static class Spt
                 Logger.Error($"[Spt] Error enumerating files in root: {ex}");
             }
 
-            var sptDir = Path.Combine(root, "SPT");
+            var sptDir = Path.Combine(root, "SPT_Runtime");
             if (Directory.Exists(sptDir))
                 try
                 {

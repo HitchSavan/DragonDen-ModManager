@@ -358,7 +358,7 @@ LIMIT 1";
                 rel = rel.TrimStart('/');
                 if (string.Equals(rel, "BepInEx/plugins", StringComparison.OrdinalIgnoreCase)) return true;
                 if (string.Equals(rel, "BepInEx/patchers", StringComparison.OrdinalIgnoreCase)) return true;
-                if (string.Equals(rel, "SPT/user/mods", StringComparison.OrdinalIgnoreCase)) return true;
+                if (string.Equals(rel, "SPT_Runtime/user/mods", StringComparison.OrdinalIgnoreCase)) return true;
                 if (string.Equals(rel, "user/mods", StringComparison.OrdinalIgnoreCase)) return true;
             }
             catch
@@ -485,7 +485,7 @@ LIMIT 1";
                         }
                         catch
                         {
-                             // good girl action
+                            // good girl action
                         }
 
                         File.Delete(full);
@@ -634,7 +634,7 @@ WHERE f.mod_id = @modId
 
         return res;
     }
-    
+
     private static string BuildAckKey(string? guid, string? name)
     {
         var g = (guid ?? "").Trim();

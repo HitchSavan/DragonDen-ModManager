@@ -59,7 +59,7 @@ public sealed class InstallQueue
         _ = Pump();
         return job;
     }
-    
+
     public InstallJob EnqueueEnable(string modName, List<string> modIds)
     {
         var job = new InstallJob { Title = $"Enable: {modName}", Source = "Enable", StartedAt = DateTimeOffset.Now, Cts = new CancellationTokenSource() };
@@ -68,7 +68,7 @@ public sealed class InstallQueue
         _ = Pump();
         return job;
     }
-    
+
     public InstallJob EnqueueDisable(string modName, List<string> modIds)
     {
         var job = new InstallJob { Title = $"Disable: {modName}", Source = "Disable", StartedAt = DateTimeOffset.Now, Cts = new CancellationTokenSource() };
@@ -417,7 +417,7 @@ public sealed class InstallQueue
                 job.Progress = 0;
                 job.SubPercent = 0;
             });
-            
+
             var total = Math.Max(1, modIds.Count);
             var done = 0;
             foreach (var id in modIds)
@@ -429,7 +429,7 @@ public sealed class InstallQueue
                     job.SubTask = $"Restoring files for {modName}";
                     job.IsIndeterminate = false;
                 });
-                
+
                 await ModDisabler.EnableAsync(id, modName);
                 done++;
                 var pct = Math.Clamp((int)(done * 100.0 / total), 0, 100);
@@ -453,7 +453,7 @@ public sealed class InstallQueue
                 job.IsCompleted = true;
                 job.CompletedAt = DateTimeOffset.Now;
             });
-            
+
             App.NotifyInstallsChanged();
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowSuccess("Enable Complete", modName);
@@ -469,7 +469,7 @@ public sealed class InstallQueue
                 job.IsCancellable = false;
                 job.IsCompleted = true;
             });
-            
+
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowWarning("Enable Cancelled", modName);
             Logger.Info($"[InstallQueue] Enable cancelled: {modName}");
@@ -503,7 +503,7 @@ public sealed class InstallQueue
                 job.Progress = 0;
                 job.SubPercent = 0;
             });
-            
+
             var total = Math.Max(1, modIds.Count);
             var done = 0;
             foreach (var id in modIds)
@@ -531,7 +531,7 @@ public sealed class InstallQueue
             {
                 var pruned = 0;
                 pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "BepInEx", "plugins"));
-                pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "SPT", "user", "mods"));
+                pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "SPT_Runtime", "user", "mods"));
                 pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "user", "mods"));
                 if (pruned > 0) Logger.Info($"[InstallQueue] Pruned empty directories: {pruned}");
             }
@@ -548,7 +548,7 @@ public sealed class InstallQueue
                 job.IsCompleted = true;
                 job.CompletedAt = DateTimeOffset.Now;
             });
-            
+
             App.NotifyInstallsChanged();
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowSuccess("Disable Complete", modName);
@@ -564,7 +564,7 @@ public sealed class InstallQueue
                 job.IsCancellable = false;
                 job.IsCompleted = true;
             });
-            
+
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowWarning("Disable Cancelled", modName);
             Logger.Info($"[InstallQueue] Disable cancelled: {modName}");
@@ -579,7 +579,7 @@ public sealed class InstallQueue
                 job.IsCancellable = false;
                 job.IsCompleted = true;
             });
-            
+
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowError("Disable Failed", modName);
             Logger.Error($"[InstallQueue] Disable failed: {modName} | {ex}");
@@ -599,7 +599,7 @@ public sealed class InstallQueue
                 job.Progress = 0;
                 job.SubPercent = 0;
             });
-            
+
             var total = Math.Max(1, modIds.Count);
             var done = 0;
             foreach (var id in modIds)
@@ -611,7 +611,7 @@ public sealed class InstallQueue
                     job.SubTask = $"Removing {modName}";
                     job.IsIndeterminate = false;
                 });
-                
+
                 App.Db.UninstallByModIds(new List<string> { id });
                 done++;
                 var pct = Math.Clamp((int)(done * 100.0 / total), 0, 100);
@@ -630,7 +630,7 @@ public sealed class InstallQueue
             {
                 var pruned = 0;
                 pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "BepInEx", "plugins"));
-                pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "SPT", "user", "mods"));
+                pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "SPT_Runtime", "user", "mods"));
                 pruned += PruneEmptySubdirsSafe(Path.Combine(sptRoot, "user", "mods"));
                 if (pruned > 0) Logger.Info($"[InstallQueue] Pruned empty directories: {pruned}");
             }
@@ -647,7 +647,7 @@ public sealed class InstallQueue
                 job.IsCompleted = true;
                 job.CompletedAt = DateTimeOffset.Now;
             });
-            
+
             App.NotifyInstallsChanged();
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowSuccess("Uninstall Complete", modName);
@@ -663,7 +663,7 @@ public sealed class InstallQueue
                 job.IsCancellable = false;
                 job.IsCompleted = true;
             });
-            
+
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowWarning("Uninstall Cancelled", modName);
             Logger.Info($"[InstallQueue] Uninstall cancelled: {modName}");
@@ -678,7 +678,7 @@ public sealed class InstallQueue
                 job.IsCancellable = false;
                 job.IsCompleted = true;
             });
-            
+
             Notifications.Current.UnbindInstall(job);
             Notifications.Current.ShowError("Uninstall Failed", modName);
             Logger.Error($"[InstallQueue] Uninstall failed: {modName} | {ex}");
@@ -792,7 +792,7 @@ public sealed class InstallQueue
             // good girl action
         }
     }
-    
+
     private static string ComputeStableCacheName(string name, string url, string version, string guid)
     {
         var baseKey = !string.IsNullOrWhiteSpace(guid) ? $"{guid}_{version}" : !string.IsNullOrWhiteSpace(name) ? $"{name}__{version}" : url;

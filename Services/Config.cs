@@ -24,7 +24,7 @@ public sealed class Config
                 SptRoot = "",
                 DataFolder = "",
                 ClientModsRelative = "BepInEx/plugins",
-                ServerModsRelative = "SPT/user/mods"
+                ServerModsRelative = "SPT_Runtime/user/mods"
             },
             Forge = new ForgeSection
             {
@@ -91,7 +91,7 @@ public sealed class Config
             Paths.ClientModsRelative = "BepInEx/plugins";
 
         if (string.IsNullOrWhiteSpace(Paths.ServerModsRelative))
-            Paths.ServerModsRelative = "SPT/user/mods";
+            Paths.ServerModsRelative = "SPT_Runtime/user/mods";
 
         if (string.IsNullOrWhiteSpace(Forge.BaseUrl))
             Forge.BaseUrl = "https://sp-mod.com";
@@ -123,7 +123,7 @@ public sealed class PathsSection
     public string? SptRoot { get; set; }
     public string? DataFolder { get; set; }
     public string ClientModsRelative { get; set; } = "BepInEx/plugins";
-    public string ServerModsRelative { get; set; } = "SPT/user/mods";
+    public string ServerModsRelative { get; set; } = "SPT_Runtime/user/mods";
 }
 
 public sealed class ForgeSection

@@ -349,7 +349,7 @@ public partial class BrowseModsPage : UserControl
     private static bool TryFindSptExeForRoot(string root, out string exePath)
     {
         var p1 = Path.Combine(root, "SPT.Server.exe");
-        var p2 = Path.Combine(root, "SPT", "SPT.Server.exe");
+        var p2 = Path.Combine(root, "SPT_Runtime", "SPT.Server.exe");
         if (File.Exists(p1))
         {
             exePath = p1;

@@ -17,7 +17,7 @@ public static class InstalledScanner
 
         var bepinPlugins = Path.Combine(sptRoot, "BepInEx", "plugins");
         var bepinPatchers = Path.Combine(sptRoot, "BepInEx", "patchers");
-        var serverModsA = Path.Combine(sptRoot, "SPT", "user", "mods");
+        var serverModsA = Path.Combine(sptRoot, "SPT_Runtime", "user", "mods");
         var serverModsB = Path.Combine(sptRoot, "user", "mods");
 
         if (Directory.Exists(bepinPlugins))
@@ -27,7 +27,7 @@ public static class InstalledScanner
             ScanRoot(sptRoot, bepinPatchers, "BepInEx/patchers", Installer.Target.Client, ref imported, ref updated, ref skipped);
 
         if (Directory.Exists(serverModsA))
-            ScanRoot(sptRoot, serverModsA, "SPT/user/mods", Installer.Target.Server, ref imported, ref updated, ref skipped);
+            ScanRoot(sptRoot, serverModsA, "SPT_Runtime/user/mods", Installer.Target.Server, ref imported, ref updated, ref skipped);
 
         if (Directory.Exists(serverModsB))
             ScanRoot(sptRoot, serverModsB, "user/mods", Installer.Target.Server, ref imported, ref updated, ref skipped);
@@ -233,7 +233,7 @@ public static class InstalledScanner
             "scan", "manual", guid ?? "", dirs);
         imported++;
     }
-    
+
     private static string Normalize(string s)
     {
         if (string.IsNullOrWhiteSpace(s)) return "";

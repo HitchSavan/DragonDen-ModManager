@@ -62,7 +62,7 @@ public partial class FirstRunDialog : Window
 
         var exe = Path.Combine(chosen, "SPT.Server.exe");
         if (!File.Exists(exe))
-            exe = Path.Combine(chosen, "SPT", "SPT.Server.exe");
+            exe = Path.Combine(chosen, "SPT_Runtime", "SPT.Server.exe");
 
         if (!File.Exists(exe))
         {
@@ -94,7 +94,7 @@ public partial class FirstRunDialog : Window
         try
         {
             var major = int.TryParse(majorTwo.Split('.')[0], out var mj) ? mj : 0;
-            App.Config.Paths.ServerModsRelative = major >= 4 ? "SPT/user/mods" : "user/mods";
+            App.Config.Paths.ServerModsRelative = major >= 4 ? "SPT_Runtime/user/mods" : "user/mods";
         }
         catch (Exception ex)
         {
